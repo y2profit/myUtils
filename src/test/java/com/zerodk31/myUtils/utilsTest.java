@@ -4,7 +4,9 @@ import com.zerodk31.myUtils.utils.utils;
 import com.zerodk31.myUtils.vo.TestVo;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -26,12 +28,44 @@ public class utilsTest {
         utils.map2vo(fromMap, toVo);
 
         // then
+        System.out.println("fromMap.toString() = " + fromMap.toString());
         System.out.println("toVo.toString() = " + toVo.toString());
-        assertThat(fromMap.get("stock_code").equals(toVo.getStockCode())
-                        && fromMap.get("stock_name").equals(toVo.getStockName())
-                        && fromMap.get("price_now").equals(toVo.getPriceNow())
-                        && fromMap.get("price_change").equals(toVo.getPriceChange())
-                        && fromMap.get("price_change_rate").equals(toVo.getPriceChangeRate())
-        );
+        assertThat(isEqualMapAndVo(fromMap, toVo));
+    }
+
+    @Test
+    public void map2newVoTest() {
+        // given
+        HashMap<String, Object> fromMap1 = new HashMap<>();
+        fromMap1.put("stock_code", "005930");
+        fromMap1.put("stock_name", "삼성전자");
+        fromMap1.put("price_now", 81500);
+        fromMap1.put("price_change", 300);
+        fromMap1.put("price_change_rate", 0.37);
+
+        HashMap<String, Object> fromMap2 = new HashMap<>();
+        fromMap2.put("stock_code", "000660");
+        fromMap2.put("stock_name", "SK하이닉스");
+        fromMap2.put("price_now", 135000);
+        fromMap2.put("price_change", 2000);
+        fromMap2.put("price_change_rate", 1.5);
+
+        ArrayList<HashMap<String, Object>> fromList = new ArrayList<>();
+        fromList.add(fromMap1);
+        fromList.add(fromMap2);
+
+        ArrayList<TestVo> toList = new ArrayList<>();
+        fromList.stream().map(utils::map2newVo).forEach(vo -> toList.add((TestVo) vo));
+
+        fromList.forEach(stock -> System.out.println(stock.toString()));
+        toList.forEach(stock -> System.out.println(stock.toString()));
+    }
+
+    public boolean isEqualMapAndVo(Map<String, Object> map, TestVo vo) {
+        return map.get("stock_code").equals(vo.getStockCode())
+                && map.get("stock_name").equals(vo.getStockName())
+                && map.get("price_now").equals(vo.getPriceNow())
+                && map.get("price_change").equals(vo.getPriceChange())
+                && map.get("price_change_rate").equals(vo.getPriceChangeRate());
     }
 }

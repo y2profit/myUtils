@@ -9,4 +9,7 @@ public class TestVo {
     private int priceNow;
     private int priceChange;
     private double priceChangeRate;
+
+    public TestVo() {
+    }
 }
