@@ -30,7 +30,7 @@ public class utilsTest {
         // then
         System.out.println("fromMap.toString() = " + fromMap.toString());
         System.out.println("toVo.toString() = " + toVo.toString());
-        assertThat(isEqualMapAndVo(fromMap, toVo));
+        assertThat(isEqualMapAndVo(fromMap, toVo)).isEqualTo(true);
     }
 
     @Test
@@ -59,6 +59,12 @@ public class utilsTest {
 
         fromList.forEach(stock -> System.out.println(stock.toString()));
         toList.forEach(stock -> System.out.println(stock.toString()));
+
+        boolean isEqual = true;
+        for(int i=0; i<fromList.size(); i++) {
+            isEqual = isEqual && isEqualMapAndVo(fromList.get(i), toList.get(i));
+            assertThat(isEqual).isEqualTo(true);
+        }
     }
 
     public boolean isEqualMapAndVo(Map<String, Object> map, TestVo vo) {
