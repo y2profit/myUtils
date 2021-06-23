@@ -1,5 +1,6 @@
 package com.zerodk31.myUtils;
 
+import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,8 +12,8 @@ import java.util.Map;
 @RestControllerAdvice
 public class MyExceptionHandler {
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, String> customExceptionHandler(MethodArgumentNotValidException e) {
+    @ExceptionHandler({MethodArgumentNotValidException.class, BindException.class})
+    public Map<String, String> customExceptionHandler(BindException e) {
         Map<String, String> result = new HashMap<>();
         FieldError fieldError = e.getFieldError();
 
